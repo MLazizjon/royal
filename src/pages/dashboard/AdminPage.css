@@ -1,0 +1,23 @@
+.admin-page{
+
+    width:100%;
+
+    min-height:100vh;
+
+    background:#F8F5F2;
+
+    padding:0;
+
+}
+
+.admin-content{
+
+    display:grid;
+
+    grid-template-columns:420px 1fr;
+
+    gap:24px;
+
+    margin:24px;
+
+}
