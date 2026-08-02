@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import "./Products.css";
 
 import {
@@ -34,8 +34,8 @@ export default function Products({ selectedCategory }) {
   const [status, setStatus] = useState("active");
   const [uploading, setUploading] = useState(false);
 
-  // Mahsulotlar va kategoriyalarni olish
-  const fetchProductsAndCategories = async () => {
+  // Mahsulotlar va kategoriyalarni olish (useCallback bilan o'raldi)
+  const fetchProductsAndCategories = useCallback(async () => {
     setLoading(true);
     let query = supabase.from('products').select('*');
 
@@ -57,11 +57,11 @@ export default function Products({ selectedCategory }) {
     }
 
     setLoading(false);
-  };
+  }, [selectedCategory]);
 
   useEffect(() => {
     fetchProductsAndCategories();
-  }, [selectedCategory]);
+  }, [fetchProductsAndCategories]);
 
   // Add modalini ochish
   const handleOpenAdd = () => {

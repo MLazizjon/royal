@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./Categories.css";
 
 import {
@@ -35,8 +35,8 @@ export default function Categories({
   const [status, setStatus] = useState("active");
   const [uploading, setUploading] = useState(false);
 
-  // Ma'lumotlarni olish
-  const fetchCategoriesAndProducts = async () => {
+  // Ma'lumotlarni olish (useCallback yordamida optimizatsiya qilindi)
+  const fetchCategoriesAndProducts = useCallback(async () => {
     const { data: catData, error: catError } = await supabase
       .from('categories')
       .select('*');
@@ -61,11 +61,11 @@ export default function Categories({
       });
       setProductsCount(counts);
     }
-  };
+  }, [selectedCategory, setSelectedCategory]);
 
   useEffect(() => {
     fetchCategoriesAndProducts();
-  }, []);
+  }, [fetchCategoriesAndProducts]);
 
   // Add modalini ochish va tozalash
   const handleOpenAdd = () => {
@@ -269,7 +269,7 @@ export default function Categories({
         </button>
       </div>
 
-      {/* KATEGoriya QO'SHISH MODALI */}
+      {/* KATEGORIYA QO'SHISH MODALI */}
       {isAddModalOpen && (
         <div className="category-modal-overlay">
           <div className="category-modal-content">
