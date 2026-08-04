@@ -10,7 +10,7 @@ import {
   FiUpload
 } from "react-icons/fi";
 
-import { supabase } from "../../supabase/supabase"; // Supabase ulangan yo'lni o'zingiznikiga moslang
+import { supabase } from "../../supabase/supabase";
 
 export default function Categories({
   selectedCategory,
@@ -24,7 +24,7 @@ export default function Categories({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
 
-  // Add (Yangi kategoriya qo'shish) modal holatlari
+  // Add modal holatlari
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Form input state'lari
@@ -35,7 +35,7 @@ export default function Categories({
   const [status, setStatus] = useState("active");
   const [uploading, setUploading] = useState(false);
 
-  // Ma'lumotlarni olish (useCallback yordamida optimizatsiya qilindi)
+  // Ma'lumotlarni olish
   const fetchCategoriesAndProducts = useCallback(async () => {
     const { data: catData, error: catError } = await supabase
       .from('categories')
@@ -45,6 +45,7 @@ export default function Categories({
       console.error("Kategoriyalarni olishda xatolik:", catError);
     } else {
       setCategories(catData || []);
+      // Agar kategoriya tanlanmagan bo'lsa, birinchisini tanlaymiz
       if (catData && catData.length > 0 && !selectedCategory) {
         setSelectedCategory(catData[0].id);
       }
@@ -67,7 +68,7 @@ export default function Categories({
     fetchCategoriesAndProducts();
   }, [fetchCategoriesAndProducts]);
 
-  // Add modalini ochish va tozalash
+  // Add modalini ochish
   const handleOpenAdd = () => {
     setNameUz("");
     setNameRu("");
@@ -77,7 +78,7 @@ export default function Categories({
     setIsAddModalOpen(true);
   };
 
-  // Yangi kategoriya qo'shish (Create / Insert)
+  // Yangi kategoriya qo'shish
   const handleCreateCategory = async (e) => {
     e.preventDefault();
     
@@ -118,7 +119,7 @@ export default function Categories({
     setIsEditModalOpen(true);
   };
 
-  // Kompyuterdan rasm tanlab Supabase Storage'ga yuklash
+  // Rasmni yuklash
   const handleFileUpload = async (e) => {
     try {
       setUploading(true);
@@ -133,9 +134,7 @@ export default function Categories({
         .from('mahsulot')
         .upload(filePath, file);
 
-      if (uploadError) {
-        throw uploadError;
-      }
+      if (uploadError) throw uploadError;
 
       const { data } = supabase.storage
         .from('mahsulot')
@@ -150,7 +149,7 @@ export default function Categories({
     }
   };
 
-  // Ma'lumotni yangilash (Update)
+  // Yangilash
   const handleUpdateCategory = async (e) => {
     e.preventDefault();
     if (!editingCategory) return;
@@ -175,7 +174,7 @@ export default function Categories({
     }
   };
 
-  // O'chirish (Delete)
+  // O'chirish
   const handleDeleteCategory = async (id, e) => {
     e.stopPropagation();
     if (!window.confirm("Haqiqatan ham bu kategoriyani o'chirmoqchimisiz?")) return;
@@ -197,16 +196,13 @@ export default function Categories({
 
   return (
     <div className="categories-card">
-      {/* Sarlavha */}
       <div className="categories-header">
         <h2>Kategoriyalar</h2>
         <button className="add-category-btn" onClick={handleOpenAdd}>
-          <FiPlus />
-          Kategoriya qo'shish
+          <FiPlus /> Kategoriya qo'shish
         </button>
       </div>
 
-      {/* Ro'yxat */}
       <div className="categories-list">
         {visibleCategories.map((category) => {
           const totalProducts = productsCount[category.id] || 0;
@@ -236,20 +232,10 @@ export default function Categories({
                 <span className={`status ${catStatus}`}>
                   {catStatus === "active" ? "Faol" : "Nofaol"}
                 </span>
-
-                <button
-                  className="edit-btn"
-                  onClick={(e) => handleOpenEdit(category, e)}
-                  title="Tahrirlash"
-                >
+                <button className="edit-btn" onClick={(e) => handleOpenEdit(category, e)} title="Tahrirlash">
                   <FiEdit2 />
                 </button>
-
-                <button
-                  className="delete-btn"
-                  onClick={(e) => handleDeleteCategory(category.id, e)}
-                  title="O'chirish"
-                >
+                <button className="delete-btn" onClick={(e) => handleDeleteCategory(category.id, e)} title="O'chirish">
                   <FiTrash2 />
                 </button>
               </div>
@@ -258,185 +244,98 @@ export default function Categories({
         })}
       </div>
 
-      {/* Pastki qism */}
       <div className="categories-footer">
-        <button
-          className="view-category-btn"
-          onClick={() => setShowAll(!showAll)}
-        >
+        <button className="view-category-btn" onClick={() => setShowAll(!showAll)}>
           {showAll ? "Kamroq ko'rsatish" : "Barcha kategoriyalarni ko'rish"}
           <FiChevronRight />
         </button>
       </div>
 
-      {/* KATEGORIYA QO'SHISH MODALI */}
+      {/* MODAL: QO'SHISH */}
       {isAddModalOpen && (
         <div className="category-modal-overlay">
           <div className="category-modal-content">
             <div className="modal-header-custom">
               <h3>Yangi kategoriya qo'shish</h3>
-              <button className="modal-close-btn" onClick={() => setIsAddModalOpen(false)}>
-                <FiX />
-              </button>
+              <button className="modal-close-btn" onClick={() => setIsAddModalOpen(false)}><FiX /></button>
             </div>
-
             <form onSubmit={handleCreateCategory} className="modal-form">
               <div className="form-group">
                 <label>Nomi (UZ)</label>
-                <input
-                  type="text"
-                  value={nameUz}
-                  onChange={(e) => setNameUz(e.target.value)}
-                  placeholder="Masalan: Ichimliklar"
-                  required
-                />
+                <input type="text" value={nameUz} onChange={(e) => setNameUz(e.target.value)} placeholder="Masalan: Ichimliklar" required />
               </div>
-
               <div className="form-group">
                 <label>Nomi (RU)</label>
-                <input
-                  type="text"
-                  value={nameRu}
-                  onChange={(e) => setNameRu(e.target.value)}
-                  placeholder="Напитки"
-                  required
-                />
+                <input type="text" value={nameRu} onChange={(e) => setNameRu(e.target.value)} placeholder="Напитки" required />
               </div>
-
               <div className="form-group">
                 <label>Nomi (EN)</label>
-                <input
-                  type="text"
-                  value={nameEn}
-                  onChange={(e) => setNameEn(e.target.value)}
-                  placeholder="Drinks"
-                  required
-                />
+                <input type="text" value={nameEn} onChange={(e) => setNameEn(e.target.value)} placeholder="Drinks" required />
               </div>
-
               <div className="form-group">
-                <label>Rasm (URL yoki kompyuterdan yuklash)</label>
+                <label>Rasm (URL yoki fayl)</label>
                 <div className="image-input-container">
-                  <input
-                    type="text"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    placeholder="https://... yoki fayl tanlang"
-                    required
-                  />
-                  <label className="file-upload-label" title="Kompyuterdan rasm tanlash">
+                  <input type="text" value={image} onChange={(e) => setImage(e.target.value)} placeholder="https://..." required />
+                  <label className="file-upload-label" title="Tanlash">
                     <FiUpload />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                      style={{ display: "none" }}
-                    />
+                    <input type="file" accept="image/*" onChange={handleFileUpload} style={{ display: "none" }} />
                   </label>
                 </div>
-                {uploading && <span className="uploading-text">Rasm yuklanmoqda...</span>}
+                {uploading && <span className="uploading-text">Yuklanmoqda...</span>}
               </div>
-
               <div className="form-group">
                 <label>Holati</label>
-                <select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  required
-                >
+                <select value={status} onChange={(e) => setStatus(e.target.value)} required>
                   <option value="active">Faol</option>
                   <option value="inactive">Nofaol</option>
                 </select>
               </div>
-
-              <button type="submit" className="modal-save-btn">
-                Kategoriya qo'shish
-              </button>
+              <button type="submit" className="modal-save-btn">Kategoriya qo'shish</button>
             </form>
           </div>
         </div>
       )}
 
-      {/* KATEGORIYANI TAHRIRLASH MODALI */}
+      {/* MODAL: TAHRIRLASH */}
       {isEditModalOpen && (
         <div className="category-modal-overlay">
           <div className="category-modal-content">
             <div className="modal-header-custom">
               <h3>Kategoriyani tahrirlash</h3>
-              <button className="modal-close-btn" onClick={() => setIsEditModalOpen(false)}>
-                <FiX />
-              </button>
+              <button className="modal-close-btn" onClick={() => setIsEditModalOpen(false)}><FiX /></button>
             </div>
-
             <form onSubmit={handleUpdateCategory} className="modal-form">
               <div className="form-group">
                 <label>Nomi (UZ)</label>
-                <input
-                  type="text"
-                  value={nameUz}
-                  onChange={(e) => setNameUz(e.target.value)}
-                  required
-                />
+                <input type="text" value={nameUz} onChange={(e) => setNameUz(e.target.value)} required />
               </div>
-
               <div className="form-group">
                 <label>Nomi (RU)</label>
-                <input
-                  type="text"
-                  value={nameRu}
-                  onChange={(e) => setNameRu(e.target.value)}
-                  required
-                />
+                <input type="text" value={nameRu} onChange={(e) => setNameRu(e.target.value)} required />
               </div>
-
               <div className="form-group">
                 <label>Nomi (EN)</label>
-                <input
-                  type="text"
-                  value={nameEn}
-                  onChange={(e) => setNameEn(e.target.value)}
-                  required
-                />
+                <input type="text" value={nameEn} onChange={(e) => setNameEn(e.target.value)} required />
               </div>
-
               <div className="form-group">
-                <label>Rasm (URL yoki kompyuterdan yuklash)</label>
+                <label>Rasm</label>
                 <div className="image-input-container">
-                  <input
-                    type="text"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    placeholder="https://... yoki fayl tanlang"
-                    required
-                  />
-                  <label className="file-upload-label" title="Kompyuterdan rasm tanlash">
+                  <input type="text" value={image} onChange={(e) => setImage(e.target.value)} required />
+                  <label className="file-upload-label">
                     <FiUpload />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                      style={{ display: "none" }}
-                    />
+                    <input type="file" accept="image/*" onChange={handleFileUpload} style={{ display: "none" }} />
                   </label>
                 </div>
-                {uploading && <span className="uploading-text">Rasm yuklanmoqda...</span>}
+                {uploading && <span className="uploading-text">Yuklanmoqda...</span>}
               </div>
-
               <div className="form-group">
                 <label>Holati</label>
-                <select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  required
-                >
+                <select value={status} onChange={(e) => setStatus(e.target.value)} required>
                   <option value="active">Faol</option>
                   <option value="inactive">Nofaol</option>
                 </select>
               </div>
-
-              <button type="submit" className="modal-save-btn">
-                O'zgarishlarni saqlash
-              </button>
+              <button type="submit" className="modal-save-btn">O'zgarishlarni saqlash</button>
             </form>
           </div>
         </div>
