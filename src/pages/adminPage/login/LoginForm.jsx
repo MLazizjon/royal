@@ -27,8 +27,8 @@ export default function LoginForm() {
 
   const handleLogin = () => {
     if (
-      value === "+998901929229" &&
-      password === "901929229"
+      value === "+998973333036" &&
+      password === "973333036"
     ) {
       navigate("/adminpanel");
     } else {  

@@ -1,5 +1,5 @@
 import React from "react";
-import logoImg from "../login/images/photo_2026-08-02_13-52-01-removebg-preview.png";
+import logoImg from "../../../assets/image.png";
 
 export default function LoginLeft() {
   return (
@@ -7,12 +7,12 @@ export default function LoginLeft() {
       <div className="login-left-content">
         <img
           src={logoImg}
-          alt="Shirin Tabaka"
+          alt="Royal Chicken"
           className="login-logo"
         />
 
         <h1 className="restaurant-title">
-          SHIRIN TABAKA RESTAURANT
+          Royal Chicken 
         </h1>
 
         <p className="restaurant-subtitle">
