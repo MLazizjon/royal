@@ -1,170 +1,206 @@
 /* Asosiy konteyner */
 .admin-orders-container {
-    padding: 24px;
-    max-width: 1300px;
-    margin: 0 auto;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-  
-  .admin-orders-container h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  /* Buyurtmalar to'ri (Grid) */
-  .orders-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-  }
-  
-  /* Buyurtma kartochkasi */
-  .order-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
-    border-left: 6px solid #cbd5e1; /* Odatiy chegara rangi */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .order-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Statusga ko'ra chap tomondagi rang chizig'i va foni */
-  .order-card.status-pending {
-    border-left-color: #f59e0b; /* Sariq/Zargaldosh */
-  }
-  
-  .order-card.status-preparing {
-    border-left-color: #3b82f6; /* Moviy */
-  }
-  
-  .order-card.status-completed {
-    border-left-color: #10b981; /* Yashil */
-  }
-  
-  /* Kartochka tepa qismi */
-  .order-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 14px;
-    border-bottom: 1px dashed #e2e8f0;
-    margin-bottom: 14px;
-  }
-  
-  .order-header h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: #0f172a;
-  }
-  
-  .order-time {
-    font-size: 13px;
-    font-weight: 500;
-    color: #64748b;
-    background: #f1f5f9;
-    padding: 4px 8px;
-    border-radius: 6px;
-  }
-  
-  /* Mahsulotlar ro'yxati */
-  .order-items {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 16px;
-    max-height: 220px;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-  
-  .order-item-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    color: #334155;
-    background: #f8fafc;
-    padding: 8px 12px;
-    border-radius: 8px;
-  }
-  
-  .order-item-line span:first-child {
-    font-weight: 500;
-  }
-  
-  .order-item-line span:last-child {
-    font-weight: 600;
-    color: #475569;
-  }
-  
-  /* Kartochka pastki qismi */
-  .order-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-top: 14px;
-    border-top: 1px solid #e2e8f0;
-  }
-  
-  .order-footer strong {
-    font-size: 16px;
-    color: #0f172a;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* Status tanlash select menyusi */
-  .order-footer select {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 10px;
-    border: 1px solid #cbd5e1;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.2s ease;
-    background-color: #fff;
-  }
-  
-  /* Status bo'yicha Select ranglari */
-  .order-card.status-pending select {
-    background-color: #fffbeb;
-    color: #b45309;
-    border-color: #fde68a;
-  }
-  
-  .order-card.status-preparing select {
-    background-color: #eff6ff;
-    color: #1d4ed8;
-    border-color: #bfdbfe;
-  }
-  
-  .order-card.status-completed select {
-    background-color: #ecfdf5;
-    color: #047857;
-    border-color: #a7f3d0;
-  }
-  
+  padding: 24px;
+  max-width: 1300px;
+  margin: 0 auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 
-  
-  /* Yukonlanmoqda / Bo'sh holat stili */
-  p {
-    color: #64748b;
-    font-size: 16px;
-  }
+.admin-orders-container h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Buyurtmalar to'ri (Grid) */
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Buyurtma kartochkasi */
+.order-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  border-left: 6px solid #cbd5e1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Status ranglari */
+.order-card.status-pending {
+  border-left-color: #f59e0b;
+}
+
+.order-card.status-preparing {
+  border-left-color: #3b82f6;
+}
+
+.order-card.status-completed {
+  border-left-color: #10b981;
+}
+
+/* Kartochka tepa qismi */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed #e2e8f0;
+  margin-bottom: 14px;
+}
+
+.order-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.order-time {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* Mahsulotlar ro'yxati */
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.order-item-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #334155;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.order-item-line span:first-child {
+  font-weight: 500;
+}
+
+.order-item-line span:last-child {
+  font-weight: 600;
+  color: #475569;
+}
+
+.item-qty {
+  color: #0f172a;
+  margin-left: 4px;
+}
+
+/* Kartochka pastki qismi */
+.order-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.total-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.total-price-row strong {
+  font-size: 17px;
+  color: #0f172a;
+}
+
+/* Status tanlash menyusi (Select) */
+.order-footer select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+.order-card.status-pending select {
+  background-color: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.order-card.status-preparing select {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.order-card.status-completed select {
+  background-color: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+/* Chek chiqarish tugmasi */
+.print-btn {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.print-btn:hover {
+  background-color: #334155;
+}
+
+.print-btn:active {
+  transform: scale(0.98);
+}
+
+/* Yuklanmoqda va bo'sh holat stili */
+.state-message {
+  color: #64748b;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 40px;
+}
