@@ -11,8 +11,19 @@ import AdminPanel from './pages/dashboard/AdminPage';
 function App() {
   useEffect(() => {
     if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+      tg.expand();
+
+      // Telegram'dan foydalanuvchi ma'lumotlarini va initData'ni olish
+      const user = tg.initDataUnsafe?.user;
+      const initData = tg.initData; // Backend'da xavfsizlikni tekshirish uchun zarur string
+
+      if (user) {
+        console.log("Telegram Foydalanuvchi:", user);
+        // Masalan: user.id, user.first_name, user.username
+        // Shu yerda foydalanuvchini avtomatik Login qilish mantiqini kiritsangiz bo'ladi
+      }
     }
   }, []);
 
@@ -23,7 +34,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/adminpanel" element={<AdminPanel />} />
-          {/* Telegram qo'shgan har qanday noma'lum route'ni bosh sahifaga (Login) yo'naltiramiz */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
