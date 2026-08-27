@@ -8,15 +8,7 @@ import Products from "./Products";
 import Order from "./Order";
 
 export default function AdminPage() {
-  // Telegram SDK-ni shu yerda ham chaqirish mumkin:
-  useEffect(() => {
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
-    }
-  }, []);
-
-  // activeTab holatini LocalStorage'dan o'qiymiz, agar yo'q bo'lsa "orders" olinadi
+  // activeTab holatini LocalStorage'dan o'qiymiz
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("admin_active_tab") || "orders";
   });
