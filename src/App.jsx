@@ -1,33 +1,33 @@
-import { useEffect } from 'react';
-import {  Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import './style/StyleComponent';
 
+// Komponentlarni to'g'ri yo'l bilan import qilish
 import Login from './pages/adminPage/login/login'; 
-import AdminPanel from './pages/dashboard/AdminPage'; 
+import AdminPanel from './pages/dashboard/AdminPage'; // O'z papkangizga qarab yo'lini to'g'rilang
+// import NotFound from './components/NotFound'; // Agar bo'lmasa, yaratib qo'ying
 
 function App() {
-  useEffect(() => {
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
-    }
-  }, []);
-
   return (
-    <Router>
-      <div className="App">
-        <ToastContainer />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/adminpanel" element={<AdminPanel />} />
-          {/* Telegram qo'shgan har qanday noma'lum route'ni bosh sahifaga (Login) yo'naltiramiz */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+
+      <ToastContainer />
+
+
+      <Routes>
+        {/* Asosiy sahifa - Login */}
+        <Route path="/" element={<Login />} />
+        
+        
+        {/* Admin Panel yo'li */}
+        <Route path="/adminpanel" element={<AdminPanel />} />
+
+        {/* Topilmagan sahifalar uchun (404) */}
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
+    </div>
   );
 }
 
