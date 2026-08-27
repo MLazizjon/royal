@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {  Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -11,17 +11,8 @@ import AdminPanel from './pages/dashboard/AdminPage';
 function App() {
   useEffect(() => {
     if (window.Telegram?.WebApp) {
-      const tg = window.Telegram.WebApp;
-      tg.ready();
-      tg.expand();
-
-      // Telegram foydalanuvchi ma'lumotlari
-      const user = tg.initDataUnsafe?.user;
-      const initData = tg.initData;
-
-      if (user) {
-        console.log("Telegram Foydalanuvchi:", user);
-      }
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
     }
   }, []);
 
@@ -32,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/adminpanel" element={<AdminPanel />} />
-          {/* Noto'g'ri routelarni bosh sahifaga yo'naltirish */}
+          {/* Telegram qo'shgan har qanday noma'lum route'ni bosh sahifaga (Login) yo'naltiramiz */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
