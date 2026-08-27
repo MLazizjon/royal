@@ -1,11 +1,11 @@
-import { Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
-import './style/StyleComponent';
+import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+import "./style/StyleComponent";
 
-import Login from './pages/adminPage/login/login'; 
-import AdminPanel from './pages/dashboard/AdminPage'; 
+import Login from "./pages/adminPage/login/login";
+import AdminPanel from "./pages/dashboard/AdminPage";
 
 function App() {
   return (
@@ -13,13 +13,10 @@ function App() {
       <ToastContainer />
 
       <Routes>
-        {/* Asosiy sahifa - Login */}
         <Route path="/" element={<Login />} />
-        
-        {/* Admin Panel yo'li */}
         <Route path="/adminpanel" element={<AdminPanel />} />
 
-        {/* Telegram parametrlari kelganda ham Login sahifasini ochish uchun: */}
+        {/* Telegram har qanday URL yuborganda ham oq ekran bo'lmasligi uchun: */}
         <Route path="*" element={<Login />} />
       </Routes>
     </div>
