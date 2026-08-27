@@ -1,13 +1,16 @@
+// src/main.jsx yoki src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+// BrowserRouter o'rniga HashRouter'ni import qiling
+import { HashRouter } from 'react-router-dom';
 import App from './App';
+import './index.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    {/* App komponentini HashRouter ichiga oling */}
+    <HashRouter>
       <App />
-    </BrowserRouter>
-  </React.StrictMode>
+    </HashRouter>
+  </React.StrictMode>,
 );
