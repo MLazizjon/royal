@@ -1,28 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AdminPage.css";
 
 import DashboardHeader from "./DashboardHeader";
 import StatsCards from "./StatsCards";
 import Categories from "./Categories";
 import Products from "./Products";
-import Order from "./Order"; // Menyudan kelayotgan buyurtmalar componenti
+import Order from "./Order";
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState("orders"); // Standart: "orders" yoki "settings"
+  // Telegram SDK-ni shu yerda ham chaqirish mumkin:
+  useEffect(() => {
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  }, []);
+
+  // activeTab holatini LocalStorage'dan o'qiymiz, agar yo'q bo'lsa "orders" olinadi
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem("admin_active_tab") || "orders";
+  });
+
+  // activeTab o'zgarganda uni LocalStorage'ga saqlaymiz
+  useEffect(() => {
+    localStorage.setItem("admin_active_tab", activeTab);
+  }, [activeTab]);
+
   const [selectedCategory, setSelectedCategory] = useState("bread");
 
   return (
     <div className="admin-page">
-      {/* Header-ga holat va uni o'zgartirish funksiyasini uzatamiz */}
       <DashboardHeader activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {activeTab === "orders" ? (
-        /* Buyurtmalar bo'limi */
         <div className="admin-orders-tab">
           <Order />
         </div>
       ) : (
-        /* Ma'lumotlarni o'zgartirish (Mahsulotlar va Kategoriyalar) bo'limi */
         <div className="admin-settings-tab">
           <StatsCards />
           <div className="admin-content">
