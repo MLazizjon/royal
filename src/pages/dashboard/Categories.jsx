@@ -37,8 +37,9 @@ export default function Categories({
 
   // Supabase'dan ma'lumotlarni olish
   const fetchCategoriesAndProducts = useCallback(async () => {
+    // Supabase'dagi 'royal_categories' jadvalidan olish
     const { data: catData, error: catError } = await supabase
-      .from('categories')
+      .from('royal_categories')
       .select('*');
 
     if (catError) {
@@ -50,8 +51,9 @@ export default function Categories({
       }
     }
 
+    // Supabase'dagi 'royal_products' jadvalidan olish
     const { data: prodData, error: prodError } = await supabase
-      .from('products')
+      .from('royal_products')
       .select('category_id');
 
     if (!prodError && prodData) {
@@ -99,7 +101,6 @@ export default function Categories({
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
 
-      // Rasmni to'g'ridan-to'g'ri mahsulot bucket'ining ildiziga yuklaymiz
       const { error: uploadError } = await supabase.storage
         .from('mahsulot')
         .upload(fileName, file, {
@@ -132,14 +133,13 @@ export default function Categories({
   const handleCreateCategory = async (e) => {
     e.preventDefault();
     
-    // Unikal ID hosil qilish (masalan: hot-dog yoki random string)
     const baseSlug = nameEn 
       ? nameEn.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-') 
       : 'category';
     const generatedId = `${baseSlug}-${Date.now()}`;
 
     const { error } = await supabase
-      .from('categories')
+      .from('royal_categories')
       .insert([
         {
           id: generatedId,
@@ -166,7 +166,7 @@ export default function Categories({
     if (!editingCategory) return;
 
     const { error } = await supabase
-      .from('categories')
+      .from('royal_categories')
       .update({
         name_uz: nameUz,
         name_ru: nameRu,
@@ -191,7 +191,7 @@ export default function Categories({
     if (!window.confirm("Haqiqatan ham bu kategoriyani o'chirmoqchimisiz?")) return;
 
     const { error } = await supabase
-      .from('categories')
+      .from('royal_categories')
       .delete()
       .eq('id', id);
 

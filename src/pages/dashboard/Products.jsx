@@ -37,7 +37,7 @@ export default function Products({ selectedCategory }) {
   // Mahsulotlar va kategoriyalarni olish
   const fetchProductsAndCategories = useCallback(async () => {
     setLoading(true);
-    let query = supabase.from('products').select('*');
+    let query = supabase.from('royal_products').select('*');
 
     if (selectedCategory) {
       query = query.eq('category_id', selectedCategory);
@@ -50,8 +50,8 @@ export default function Products({ selectedCategory }) {
       setProducts(prodData || []);
     }
 
-    // Kategoriyalarni select uchun olish
-    const { data: catData, error: catError } = await supabase.from('categories').select('*');
+    // Kategoriyalarni select uchun olish (royal_categories)
+    const { data: catData, error: catError } = await supabase.from('royal_categories').select('*');
     if (!catError) {
       setCategories(catData || []);
     }
@@ -75,7 +75,7 @@ export default function Products({ selectedCategory }) {
     setIsAddModalOpen(true);
   };
 
-  // Yangi mahsulot qo'shish (image_url ga o'zgartirildi)
+  // Yangi mahsulot qo'shish (royal_products jadvaliga)
   const handleCreateProduct = async (e) => {
     e.preventDefault();
 
@@ -83,11 +83,13 @@ export default function Products({ selectedCategory }) {
     const generatedId = `${slug}-${Date.now()}`;
 
     const { error } = await supabase
-      .from('products')
+      .from('royal_products')
       .insert([
         {
           id: generatedId,
-          name: { uz: nameUz, ru: nameRu, en: nameEn },
+          name_uz: nameUz,
+          name_ru: nameRu,
+          name_en: nameEn,
           price: Number(price),
           category_id: categoryId,
           image_url: image,
@@ -104,12 +106,12 @@ export default function Products({ selectedCategory }) {
     }
   };
 
-  // Edit modalini ochish (image_url ga o'zgartirildi)
+  // Edit modalini ochish
   const handleOpenEdit = (product) => {
     setEditingProduct(product);
-    setNameUz(typeof product.name === 'object' ? product.name?.uz : product.name || "");
-    setNameRu(typeof product.name === 'object' ? product.name?.ru : "");
-    setNameEn(typeof product.name === 'object' ? product.name?.en : "");
+    setNameUz(product.name_uz || (typeof product.name === 'object' ? product.name?.uz : product.name) || "");
+    setNameRu(product.name_ru || (typeof product.name === 'object' ? product.name?.ru : "") || "");
+    setNameEn(product.name_en || (typeof product.name === 'object' ? product.name?.en : "") || "");
     setPrice(product.price || "");
     setCategoryId(product.category_id || "");
     setImage(product.image_url || product.image || "");
@@ -117,15 +119,17 @@ export default function Products({ selectedCategory }) {
     setIsEditModalOpen(true);
   };
 
-  // Mahsulotni yangilash (image_url ga o'zgartirildi)
+  // Mahsulotni yangilash
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     if (!editingProduct) return;
 
     const { error } = await supabase
-      .from('products')
+      .from('royal_products')
       .update({
-        name: { uz: nameUz, ru: nameRu, en: nameEn },
+        name_uz: nameUz,
+        name_ru: nameRu,
+        name_en: nameEn,
         price: Number(price),
         category_id: categoryId,
         image_url: image,
@@ -147,7 +151,7 @@ export default function Products({ selectedCategory }) {
     if (!window.confirm("Haqiqatan ham bu mahsulotni o'chirmoqchimisiz?")) return;
 
     const { error } = await supabase
-      .from('products')
+      .from('royal_products')
       .delete()
       .eq('id', id);
 
@@ -191,9 +195,7 @@ export default function Products({ selectedCategory }) {
 
   const filteredProducts = useMemo(() => {
     return products.filter((item) => {
-      const productName = typeof item.name === 'object' 
-        ? item.name?.uz || '' 
-        : item.name;
+      const productName = item.name_uz || (typeof item.name === 'object' ? item.name?.uz : item.name) || '';
 
       return productName
         .toLowerCase()
@@ -249,9 +251,8 @@ export default function Products({ selectedCategory }) {
             <div className="no-products">Hech qanday mahsulot topilmadi</div>
           ) : (
             visibleProducts.map((item) => {
-              const nameUz = typeof item.name === 'object' ? item.name?.uz : item.name;
+              const productNameUz = item.name_uz || (typeof item.name === 'object' ? item.name?.uz : item.name);
               
-              // image_url ustunini tekshirish
               const rawImage = item.image_url || item.image;
               const imageName = typeof rawImage === 'string' ? rawImage.trim() : '';
               let imageUrl = imageName;
@@ -270,12 +271,12 @@ export default function Products({ selectedCategory }) {
                   <div className="product-image">
                     <img
                       src={imageUrl}
-                      alt={nameUz}
+                      alt={productNameUz}
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
                   </div>
 
-                  <div className="product-name">{nameUz}</div>
+                  <div className="product-name">{productNameUz}</div>
                   <div className="product-category">{item.category_id}</div>
                   <div className="product-price">{item.price}</div>
                   <div className="product-status">
@@ -424,4 +425,4 @@ export default function Products({ selectedCategory }) {
       )}
     </div>
   );
-}
+} 

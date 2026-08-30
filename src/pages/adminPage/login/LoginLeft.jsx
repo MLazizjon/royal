@@ -1,5 +1,5 @@
 import React from "react";
-import logoImg from "../../../assets/image.png";
+import logoImg from "../../../assets/logo/image.png";
 
 export default function LoginLeft() {
   return (
@@ -7,12 +7,12 @@ export default function LoginLeft() {
       <div className="login-left-content">
         <img
           src={logoImg}
-          alt="Royal Chicken"
+          alt="Samarqand Un Oshi"
           className="login-logo"
         />
 
         <h1 className="restaurant-title">
-          Royal Chicken 
+          Samarqand Un Oshi
         </h1>
 
         <p className="restaurant-subtitle">
@@ -24,8 +24,8 @@ export default function LoginLeft() {
 
       <div className="login-footer">
         <svg
-          width="22"
-          height="22"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

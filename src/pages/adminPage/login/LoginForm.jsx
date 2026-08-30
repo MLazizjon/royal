@@ -20,16 +20,11 @@ export default function LoginForm() {
       setValue("+998");
       return;
     }
-
-    // Faqat 13 ta belgigacha
     setValue(phone.slice(0, 13));
   };
 
   const handleLogin = () => {
-    if (
-      value === "+998973333036" &&
-      password === "973333036"
-    ) {
+    if (value === "+998973333036" && password === "973333036") {
       navigate("/adminpanel");
     } else {  
       setShowToast(true);
@@ -56,17 +51,13 @@ export default function LoginForm() {
 
       <div className="login-form-wrapper">
         <div className="login-card">
-          <h1 className="login-title">
-            Admin Panel
-          </h1>
-
+          <h1 className="login-title">Admin Panel</h1>
           <p className="login-description">
             Faqat administratorlar tizimga kirishi mumkin.
           </p>
 
           <div className="form-group">
             <label>Telefon raqami</label>
-
             <div className={hasError ? "phone-error" : ""}>
               <PhoneInput
                 international
@@ -84,7 +75,6 @@ export default function LoginForm() {
 
           <div className="form-group">
             <label>Parolingiz</label>
-
             <div className="password-input">
               <span className="password-lock">
                 <svg
@@ -162,27 +152,20 @@ export default function LoginForm() {
               <span>Eslab qolish</span>
             </label>
 
-            <button
-              type="button"
-              className="forgot-password"
-            >
+            <button type="button" className="forgot-password">
               Parolni unutdingiz?
             </button>
           </div>
 
-          <button
-            type="button"
-            className="login-button"
-            onClick={handleLogin}
-          >
+          <button type="button" className="login-button" onClick={handleLogin}>
             Admin Panelga kirish
             <span>→</span>
           </button>
 
           <div className="login-security">
             <svg
-              width="22"
-              height="22"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -193,7 +176,6 @@ export default function LoginForm() {
               <path d="M12 2L4 5v6c0 5 3.5 9.7 8 11 4.5-1.3 8-6 8-11V5l-8-3z" />
               <path d="M9 12l2 2 4-4" />
             </svg>
-
             <span>Faqat ruxsat etilgan administratsiyalar uchun</span>
           </div>
         </div>
